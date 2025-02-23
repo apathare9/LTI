@@ -1,0 +1,127 @@
+
+// ---------- Actions ----------
+
+Actions action = new Actions(driver);
+
+actions.moveToElement(element).perform();                     // --- moveToElement();
+actions.dragAndDrop(source, destination).perform();           // --- dragAndDrop();
+actions.contextClick(element);                                // --- contextClick();
+actions.doubleClick(element);                                 // --- doubleClick();
+
+actions.moveToElement(element).click().build().perform();     // When performing multiple actions we use build();
+
+// ---------- Javascript Executor ----------
+
+WebElement element;
+
+JavaScriptExecutor js = (JavaScriptExecutor)driver;
+
+js.executeScript("arguments[0].scrollIntoView(true)", element);           // --- To scroll down.
+js.executeScript("arguments[0].scrollIntoView(false)", element)           // --- To scroll up.
+js.executeScript("arguments[0]", element).click();                        // --- Button Click -> Js Click
+
+// ---------- Takes Screenshot ----------
+
+TakesScreenshot ts = (TakesScreenshot)driver;
+File src = ts.getScreenshotAs(OutputType.FILE);                           // getScreenshotAs(OutputType.File);
+File dest = new File("path");
+FileUtils.copyFile(src, dest);
+
+// ---------- Visibility Of Element (SED) ----------
+
+WebElement element;
+
+element.isSelected();                                         // method to check whether the web element is selectable or not
+element.isEnabled();                                          // method to check whether the web element is enabled or not.
+element.isDisplayed();                                        // method to check whether the web element is displayed(present) or not
+
+// ---------- Frames ----------
+
+driver.switchTo().frame();
+driver.switchTo().parentFrame();                              // To switch from current frame to immediate parent frame (frame inside frame concept)
+driver.switchTo().defaultContent();         
+
+// ---------- Window Handling ----------
+
+String parentWindow = driver.getWindowHandle();               // To get parent window parent window handle
+
+Set<String> allWindowHandles = driver.getWindowHandles();
+
+for(String i : allWindowHandles) {
+
+    if(parentWindow.equals(i) == false) {
+
+        driver.switchTo().window(i);
+
+    }
+
+}
+
+driver.findElement(By.xpath("")).click();
+
+driver.switchTo().defaultContent();                          // To Switch back to parent window
+
+// ---------- Dropdown (IV^2) ----------
+
+WebElement element;
+
+Select select = new Select(element);
+
+select.selectByIndex(1);
+select.selectByValue("IND");
+select.selectByVisibleText("India");
+
+// ---------- Navigation Commands ----------
+
+driver.navigate().to("url");
+driver.navigate().forward();
+driver.navigate().backward();
+driver.navigate().refresh();
+
+// ---------- Waits ----------
+
+Thread.sleep();
+
+driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);                                // Implicit Wait -- mt.i
+
+WebDriver wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+WebElement element = wait.until(ExpectedCondition.presenceOfElementLocated(By.xpath("")));      // Explicit Wait -- ec.poel
+
+
+// ---------- Annotations ----------
+
+--- TestNG ---
+@BeforeSuite
+@BeforeTest
+@BeforeClass
+@BeforeMethod
+@Test
+@AfterMethod
+@AfterClass
+@AfterTest
+@AfterSuite
+
+--- BDD ---
+
+@BeforeAll
+@Before
+@Given
+@When
+@Then
+@After
+@AfterAll
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
